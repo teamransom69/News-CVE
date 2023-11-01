@@ -4,21 +4,21 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-# URL de la page CVE
+# URL of the CVE page
 url = "https://www.cert.ssi.gouv.fr/"
 
-# Fonction pour envoyer un e-mail
+# Function to send an email
 def send_email(cve_title, cve_link):
-    from_email = "votre_adresse_email@gmail.com"
+    from_email = "your_email@gmail.com"
     to_email = "darkcybernetik@gmail.com"
-    password = "votre_mot_de_passe"
+    password = "your_password"
 
     msg = MIMEMultipart()
     msg['From'] = from_email
     msg['To'] = to_email
-    msg['Subject'] = "Nouvelle CVE : " + cve_title
+    msg['Subject'] = "New CVE: " + cve_title
 
-    body = f"Une nouvelle CVE a été publiée : {cve_title}\n\nLien : {cve_link}"
+    body = f"A new CVE has been published: {cve_title}\n\nLink: {cve_link}"
     msg.attach(MIMEText(body, 'plain'))
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -28,32 +28,32 @@ def send_email(cve_title, cve_link):
     server.sendmail(from_email, to_email, text)
     server.quit()
 
-# Fonction pour vérifier les nouvelles CVE
+# Function to check for new CVEs
 def check_for_new_cves():
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    
-    # Trouver les éléments contenant les CVE
+
+    # Find elements containing CVEs
     cve_elements = soup.find_all('div', class_='cve')
 
     for cve in cve_elements:
         cve_title = cve.find('a').text
         cve_link = cve.find('a')['href']
-        # Vérifier si vous avez déjà traité cette CVE
-        # Si elle est nouvelle, envoyez un e-mail
-        # Vous pouvez stocker les CVE déjà traitées dans un fichier ou une base de données
+        # Check if you have already processed this CVE
+        # If it's new, send an email
+        # You can store already processed CVEs in a file or a database
         if not is_cve_already_sent(cve_title):
             send_email(cve_title, cve_link)
             mark_cve_as_sent(cve_title)
 
-# Fonction pour marquer une CVE comme déjà envoyée
+# Function to mark a CVE as already sent
 def mark_cve_as_sent(cve_title):
-    # Implémentez la logique pour enregistrer la CVE dans un fichier ou une base de données
+    # Implement logic to save the CVE in a file or a database
     pass
 
-# Fonction pour vérifier si une CVE a déjà été envoyée
+# Function to check if a CVE has already been sent
 def is_cve_already_sent(cve_title):
-    # Implémentez la logique pour vérifier si la CVE a déjà été envoyée
+    # Implement logic to check if the CVE has already been sent
     pass
 
 if __name__ == "__main__":
