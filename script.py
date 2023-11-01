@@ -7,27 +7,6 @@ from email.mime.text import MIMEText
 # URL of the CVE page
 url = "https://www.cert.ssi.gouv.fr/"
 
-# Function to send an email
-def send_email(cve_title, cve_link):
-    from_email = "your_email@gmail.com"
-    to_email = "darkcybernetik@gmail.com"
-    password = "your_password"
-
-    msg = MIMEMultipart()
-    msg['From'] = from_email
-    msg['To'] = to_email
-    msg['Subject'] = "New CVE: " + cve_title
-
-    body = f"A new CVE has been published: {cve_title}\n\nLink: {cve_link}"
-    msg.attach(MIMEText(body, 'plain'))
-
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(from_email, password)
-    text = msg.as_string()
-    server.sendmail(from_email, to_email, text)
-    server.quit()
-
 # Function to check for new CVEs
 def check_for_new_cves():
     response = requests.get(url)
@@ -55,6 +34,27 @@ def mark_cve_as_sent(cve_title):
 def is_cve_already_sent(cve_title):
     # Implement logic to check if the CVE has already been sent
     pass
+    
+# Function to send an email
+def send_email(cve_title, cve_link):
+    from_email = "your_email@gmail.com"
+    to_email = "darkcybernetik@gmail.com"
+    password = "your_password"
+
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = "New CVE: " + cve_title
+
+    body = f"A new CVE has been published: {cve_title}\n\nLink: {cve_link}"
+    msg.attach(MIMEText(body, 'plain'))
+
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(from_email, password)
+    text = msg.as_string()
+    server.sendmail(from_email, to_email, text)
+    server.quit()
 
 if __name__ == "__main__":
     check_for_new_cves()
