@@ -37,9 +37,8 @@ def is_cve_already_sent(cve_title):
     
 # Function to send an email
 def send_email(cve_title, cve_link):
-    from_email = "your_email@gmail.com"
     to_email = "darkcybernetik@gmail.com"
-    password = "your_password"
+    password = "thats_a_secret"
 
     msg = MIMEMultipart()
     msg['From'] = from_email
